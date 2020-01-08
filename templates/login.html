@@ -1,0 +1,106 @@
+{% extends "userlayout.html" %}
+{% block body %} 
+<!DOCTYPE html>
+<html>
+  <link rel="shortcut icon" href="{{url_for('static',filename='images/favicon.png')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+<head>
+<title>Login</title>
+<style type="text/css">
+
+form 
+{
+width: 60%;
+margin: 60px auto;
+background: #efefef;
+padding: 60px 120px 80px 120px;
+text-align: center;
+-webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+}
+a
+{
+color: #337ab7;
+text-decoration: none;
+} 
+a:hover
+{
+color: #337ab7;
+text-decoration: underline;
+}     
+h2{
+color: #636363;
+margin: 0 0 15px;
+position: relative;
+text-align: center;
+}
+h2:before,h2:after
+{
+content: "";
+height: 2px;
+width: 20%;
+background: #d4d4d4;
+position: absolute;
+top: 50%;
+z-index: 2;
+} 
+h2:before
+{
+left: 0;
+}
+h2:after
+{
+right: 0;
+}
+.hint-text
+{
+color: #999;
+margin-bottom: 30px;
+text-align: center;
+}
+</style>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    </div>
+      <a class="navbar-brand" href="index.html" style="margin: 0px auto;">
+          <img class="toggle-logo logo-white" src="{{url_for('static',filename='images/logo.png')}}">   
+      </a>            
+   </div>
+</nav>
+</head>
+<body>
+<div class="signup-form">
+<form action="/login" method="POST" id="form">
+{% if error %}
+<div class="alert alert-danger">
+<strong>Error:</strong> {{ error }}</div>
+{% endif %}
+<h2>Login To Your Account</h2>
+<label>
+  <p class="label-txt">ENTER USER NAME</p>
+  <input type="text" class="input" name="username" required="True">
+  <div class="line-box">
+    <div class="line"></div>
+  </div>
+</label>
+<label>
+  <p class="label-txt">ENTER PASSWORD</p>
+  <input type="password" class="input" name="password" required="True">
+  <div class="line-box">
+    <div class="line"></div>
+  </div>
+</label>
+<button type="submit">SUBMIT</button>
+</form>
+<div class="text-center" style="margin-top: -115px;
+  margin-left: 5%;
+  color: #999;
+  font-family: 'Roboto', sans-serif;
+  font-size: 19px;">Don't have an account?<a href="/register">Registation</a>
+</div>
+</div>
+</body>
+</html>
+{% endblock %}

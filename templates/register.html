@@ -1,0 +1,185 @@
+{% extends "userlayout.html" %}
+{% block body %} 
+<!DOCTYPE html>
+<html>
+  <link rel="shortcut icon" href="{{url_for('static',filename='images/favicon.png')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+<head>
+  <title>Register</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style type="text/css">
+form {
+width: 60%;
+margin: 60px auto;
+background: #efefef;
+padding: 60px 120px 80px 120px;
+text-align: center;
+-webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+}
+
+a{
+color: #337ab7;
+text-decoration: none;
+} 
+a:hover{
+color: #337ab7;
+text-decoration: underline;
+}     
+h2{
+color: #636363;
+margin: 0 0 15px;
+position: relative;
+text-align: center;
+}
+h2:before,h2:after
+{
+content: "";
+height: 2px;
+width: 38%;
+background: #d4d4d4;
+position: absolute;
+top: 50%;
+z-index: 2;
+} 
+h2:before
+{
+left: 0;
+}
+h2:after
+{
+right: 0;
+}
+.hint-text
+{
+color: #999;
+margin-bottom: 30px;
+text-align: center;
+}
+</style>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    </div>
+      <a class="navbar-brand" href="index.html" style="margin: 0px auto;">
+          <img class="toggle-logo logo-white" src="{{url_for('static',filename='images/logo.png')}}">   
+      </a>            
+   </div>
+</nav>
+</head>
+<body>
+  <div class="signup-form">
+<form action="/register" method="POST" id="myform">
+{% if error %}
+<div class="alert alert-danger">
+<strong>Error:</strong> {{ error }}</div>
+{% endif %}
+  <h2>Register</h2>
+    <p class="hint-text">Create your account.</p>
+   <label>
+    <p class="label-txt">ENTER NAME</p>
+    <input type="text" class="input" name="name" required="True">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER EMAIL</p>
+    <input type="email" class="input" name="email" required="True">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER USER NAME</p>
+    <input type="text" class="input" name="username" id="username" onkeyup='check_username();' required="True">
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+        <span id='message1'></span>
+  </label>
+  <label>
+    <p class="label-txt">ENTER MOBILE NUMBER</p>
+    <input type="tel" pattern="[0-9]{10}" title="Enter Currect Number[9876543210]" id="number" class="input"  name="number" required="True" >
+    <div class="line-box">
+      <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER PASSWORD</p>
+    <input type="password" class="input" name="password" id="password" onkeyup='check();' required>
+    <div class="line-box">
+    <div class="line"></div>
+    </div>
+  </label>
+  <label>
+    <p class="label-txt">ENTER CONFIRM PASSWORD</p>
+    <input type="password" class="input" name="confirm_password" id="confirm_password"  onkeyup='check();' required="True">
+    <div class="line-box">
+      <div class="line"></div> 
+
+    </div>
+    <span id='message'></span>
+  </label>
+
+  
+<button type="submit" id="submit">SUBMIT</button>
+</form>
+<div class="text-center" style="margin-top: -115px;
+    margin-left: 5%;
+    color: #999;
+    font-family: 'Roboto', sans-serif;
+    font-size: 19px;">Already have an account? <a href="/login">Sign in</a>
+</div>
+</div>  
+</body>
+</html>
+<script> 
+var check = function() {
+if (document.getElementById('password').value ==
+  document.getElementById('confirm_password').value) {
+  document.getElementById('message').style.color = 'green';
+  document.getElementById('message').innerHTML = 'Matching';
+  $('#submit').prop('disabled', false);
+} else {
+  document.getElementById('message').style.color = 'red';
+  document.getElementById('message').innerHTML = 'Not matching';
+  $('#submit').prop('disabled', true);
+}
+}
+
+var check_username = function()
+{
+  console.log("ho")
+  flag = 0;
+  var name=document.getElementById('username').value;
+  console.log(name)
+  var data=[{% for i in range(user['user']|length) %}
+  '{{user['user'][i]}}'
+  {%endfor%}];
+  console.log(data)
+  for (var i=0; i<data.length;i++)
+  {
+    if (name == data[i])
+    flag = 1;
+  }
+  if (flag == 1)
+  {
+  document.getElementById('message1').style.color = 'red';
+  document.getElementById('message1').innerHTML = 'Username Already Exists!Enter Another Username';
+
+  $('#submit').prop('disabled', true);
+  $('form input[type="password"]').prop("disabled", true);
+  }
+  else
+  {
+  document.getElementById('message1').style.color = 'green';
+  document.getElementById('message1').innerHTML = '';
+  $('password').prop('disabled',false);
+  $('form input[type="password"]').prop("disabled", false);
+ }
+}
+</script> 
+{% endblock %}
